@@ -1,0 +1,27 @@
+[Unit]
+Description=Clash Master Service
+After=network-online.target
+
+[Container]
+Image=docker.io/foru17/clash-master:latest
+ContainerName=clash-master
+AutoUpdate=registry
+
+PublishPort=3100:3000
+PublishPort=3101:3001
+PublishPort=3102:3002
+
+Volume=%h/clash-master/data:/app/data:Z
+
+Environment=NODE_ENV=production
+Environment=WEB_PORT=3000
+Environment=API_PORT=3001
+Environment=COLLECTOR_WS_PORT=3002
+Environment=DB_PATH=/app/data/stats.db
+
+[Service]
+Restart=unless-stopped
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target
